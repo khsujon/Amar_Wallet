@@ -25,7 +25,8 @@ class TapableText extends StatelessWidget {
         text: TextSpan(
           text: firstPart,
           style: const TextStyle(
-            letterSpacing: 1,
+            fontFamily: 'Poppins',
+            letterSpacing: 0.5,
             fontSize: 12,
             fontWeight: FontWeight.w400,
             color: Colors.grey,

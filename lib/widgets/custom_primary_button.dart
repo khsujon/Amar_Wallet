@@ -28,6 +28,7 @@ class CustomPrimaryButton extends StatelessWidget {
         child: Text(
           text,
           style: const TextStyle(
+            fontFamily: 'Poppins',
             fontSize: 16,
             fontWeight: FontWeight.w400,
             color: AppColors.buttonTextColor,

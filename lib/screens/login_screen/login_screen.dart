@@ -46,6 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
               const Text(
                 AppStrings.loginTitle,
                 style: TextStyle(
+                  fontFamily: 'Sen',
                   fontSize: 28,
                   fontWeight: FontWeight.w400,
                   color: Colors.white,
