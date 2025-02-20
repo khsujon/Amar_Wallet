@@ -1,5 +1,6 @@
 // lib/widgets/bottom_nav_bar.dart
 import 'package:amar_wallet/constants/app_colors.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/bottom_nav_provider.dart';
@@ -26,7 +27,7 @@ class BottomNavBar extends StatelessWidget {
           label: '',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.menu),
+          icon: Icon(CupertinoIcons.compass),
           label: '',
         ),
         BottomNavigationBarItem(
