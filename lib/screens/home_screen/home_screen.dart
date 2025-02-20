@@ -1,3 +1,4 @@
+import 'package:amar_wallet/screens/qr_code_screen/qr_code_screen.dart';
 import 'package:amar_wallet/utils/media_query_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -103,7 +104,10 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => QrCodeScreen()));
+        },
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         label: const Text(
