@@ -41,6 +41,7 @@ class _SplashScreenState extends State<SplashScreen> {
             const Text(
               AppStrings.getStartedTitle,
               style: TextStyle(
+                fontFamily: 'Sen',
                 fontSize: 28,
                 fontWeight: FontWeight.w400,
                 color: AppColors.primaryTextColor,
@@ -52,6 +53,7 @@ class _SplashScreenState extends State<SplashScreen> {
               AppStrings.getStartedSubtitle,
               textAlign: TextAlign.center,
               style: TextStyle(
+                fontFamily: 'Poppins',
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
                 color: AppColors.secondaryTextColor,
