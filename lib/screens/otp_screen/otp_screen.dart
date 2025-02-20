@@ -1,4 +1,5 @@
 // lib/screens/otp_screen/otp_screen.dart
+import 'package:amar_wallet/screens/bottom_nav_screen/bottom_nav_screen.dart';
 import 'package:amar_wallet/screens/home_screen/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
@@ -88,7 +89,8 @@ class _OTPScreenState extends State<OTPScreen> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const HomeScreen()),
+                    MaterialPageRoute(
+                        builder: (context) => const BottomNavScreen()),
                   );
                 },
                 text: AppStrings.continueButtonText,
