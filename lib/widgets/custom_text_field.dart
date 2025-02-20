@@ -45,6 +45,11 @@ class CustomTextField extends StatelessWidget {
           Expanded(
             child: TextField(
               controller: controller,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+                color: Colors.white, // Set input text color to white
+              ),
               decoration: InputDecoration(
                 hintText: hintText,
                 hintStyle: const TextStyle(
