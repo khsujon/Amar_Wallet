@@ -82,7 +82,7 @@ class _OTPScreenState extends State<OTPScreen> {
                   ),
                   strokeColorBuilder:
                       FixedColorBuilder(Colors.white), // Border color
-                  strokeWidth: 1,
+                  strokeWidth: 2,
                   bgColorBuilder:
                       FixedColorBuilder(Colors.transparent), // Background color
                   radius: const Radius.circular(8), // Rounded corners

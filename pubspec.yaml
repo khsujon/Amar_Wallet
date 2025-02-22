@@ -39,6 +39,8 @@ dependencies:
   flutter_otp_text_field:
   provider: 
   sms_autofill: 
+  barcode_widget:
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

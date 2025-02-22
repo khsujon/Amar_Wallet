@@ -1,5 +1,6 @@
 import 'package:amar_wallet/constants/app_colors.dart';
 import 'package:amar_wallet/utils/media_query_utils.dart';
+import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -71,9 +72,16 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
               ),
               child: Column(
                 children: [
-                  Image.asset('assets/images/demo_bar.png',
-                      width: 250, height: 80), // Placeholder image
-                  const SizedBox(height: 10),
+                  BarcodeWidget(
+                    data: '931166145931635220',
+                    barcode: Barcode.code128(),
+                    width: MediaQueryUtils.screenWidth * 0.6,
+                    height: MediaQueryUtils.screenHeight * 0.12,
+                    drawText: false,
+                    color: Colors.black,
+                  ),
+                  SizedBox(height: MediaQueryUtils.screenHeight * 0.015),
+                  // Barcode number
                   const Text(
                     '931166145931635220',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
