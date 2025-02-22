@@ -40,7 +40,10 @@ dependencies:
   provider: 
   sms_autofill: 
   barcode_widget:
-  
+  path_provider: 
+  permission_handler: 
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

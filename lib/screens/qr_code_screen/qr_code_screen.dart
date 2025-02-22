@@ -1,8 +1,11 @@
-import 'package:amar_wallet/constants/app_colors.dart';
-import 'package:amar_wallet/utils/media_query_utils.dart';
-import 'package:barcode_widget/barcode_widget.dart';
+import 'dart:io';
+import 'dart:typed_data';
+import 'dart:ui';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:barcode_widget/barcode_widget.dart';
+import 'package:path_provider/path_provider.dart';
 
 class QrCodeScreen extends StatefulWidget {
   const QrCodeScreen({super.key});
@@ -12,14 +15,69 @@ class QrCodeScreen extends StatefulWidget {
 }
 
 class _QrCodeScreenState extends State<QrCodeScreen> {
+  final GlobalKey _barcodeKey = GlobalKey();
+  final String barcodeData = "931166145931635220";
+  final String folderPath = "/storage/emulated/0/Download/Barcodes";
+
+  Future<void> _saveBarcode() async {
+    try {
+      RenderRepaintBoundary boundary = _barcodeKey.currentContext!
+          .findRenderObject() as RenderRepaintBoundary;
+      var image = await boundary.toImage(pixelRatio: 3.0);
+
+      // Drawing White Background to prevent transparency issues
+      final whitePaint = Paint()..color = Colors.white;
+      final recorder = PictureRecorder();
+      final canvas = Canvas(recorder,
+          Rect.fromLTWH(0, 0, image.width.toDouble(), image.height.toDouble()));
+      canvas.drawRect(
+          Rect.fromLTWH(0, 0, image.width.toDouble(), image.height.toDouble()),
+          whitePaint);
+      canvas.drawImage(image, Offset.zero, Paint());
+      final picture = recorder.endRecording();
+      final img = await picture.toImage(image.width, image.height);
+
+      ByteData? byteData = await img.toByteData(format: ImageByteFormat.png);
+      Uint8List pngBytes = byteData!.buffer.asUint8List();
+
+      // Ensure the directory exists
+      Directory barcodeDir = Directory(folderPath);
+      if (!await barcodeDir.exists()) {
+        await barcodeDir.create(recursive: true);
+      }
+
+      // Check for duplicate filenames and avoid overwriting
+      String fileName = "barcode";
+      int i = 1;
+      while (await File("$folderPath/$fileName.png").exists()) {
+        fileName = "barcode_$i";
+        i++;
+      }
+
+      final file = File("$folderPath/$fileName.png");
+      await file.writeAsBytes(pngBytes);
+
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Center(child: Text("Barcode saved as $fileName.png"))),
+      );
+    } catch (e) {
+      print("Error saving barcode: $e");
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Center(child: Text("Something went wrong!"))),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primaryColor,
+      backgroundColor: Colors.black,
       body: SafeArea(
         child: Column(
           children: [
-            // Back Button
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Row(
@@ -31,78 +89,63 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
                 ],
               ),
             ),
-            SizedBox(height: MediaQueryUtils.screenHeight * 0.05),
-            // QR Code Icon
-            Image.asset("assets/images/ci_qr-code.png"),
-            SizedBox(height: MediaQueryUtils.screenHeight * 0.01),
-            // Title
+            const SizedBox(height: 20),
             const Text(
               'Scan QR Code',
               style: TextStyle(
-                  fontFamily: 'Sen',
                   fontSize: 28,
                   fontWeight: FontWeight.w400,
-                  color: AppColors.primaryTextColor),
+                  color: Colors.white),
             ),
-            SizedBox(height: MediaQueryUtils.screenHeight * 0.13),
-            // Profile Section
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+              children: const [
                 CircleAvatar(
                   radius: 20,
-                  backgroundImage: AssetImage(
-                      'assets/images/demo_profile.png'), // Change as needed
+                  backgroundImage: AssetImage('assets/images/demo_profile.png'),
                 ),
-                const SizedBox(width: 8),
-                const Text(
-                  'Mash Potato',
-                  style: TextStyle(
-                      fontFamily: 'Poppins', fontSize: 16, color: Colors.white),
-                ),
+                SizedBox(width: 8),
+                Text('Mash Potato',
+                    style: TextStyle(fontSize: 16, color: Colors.white)),
               ],
             ),
             const SizedBox(height: 20),
-            // Barcode
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Column(
-                children: [
-                  BarcodeWidget(
-                    data: '931166145931635220',
-                    barcode: Barcode.code128(),
-                    width: MediaQueryUtils.screenWidth * 0.6,
-                    height: MediaQueryUtils.screenHeight * 0.12,
-                    drawText: false,
-                    color: Colors.black,
-                  ),
-                  SizedBox(height: MediaQueryUtils.screenHeight * 0.015),
-                  // Barcode number
-                  const Text(
-                    '931166145931635220',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                ],
+            RepaintBoundary(
+              key: _barcodeKey,
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12)),
+                child: Column(
+                  children: [
+                    BarcodeWidget(
+                      data: barcodeData,
+                      barcode: Barcode.code128(),
+                      width: 200,
+                      height: 80,
+                      drawText: false,
+                      color: Colors.black,
+                    ),
+                    const SizedBox(height: 10),
+                    Text(barcodeData,
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold)),
+                  ],
+                ),
               ),
             ),
             const SizedBox(height: 30),
-            // Download QR Button
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: _saveBarcode,
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
-        label: const Text(
-          'Download QR',
-          style: TextStyle(
-              fontFamily: 'Poppins', fontSize: 16, fontWeight: FontWeight.w400),
-        ),
+        label: const Text('Download Barcode',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
       ),
     );
   }
