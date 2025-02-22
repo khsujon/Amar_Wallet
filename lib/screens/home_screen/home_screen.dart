@@ -3,6 +3,7 @@ import 'package:amar_wallet/utils/media_query_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:amar_wallet/constants/app_colors.dart';
+import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -16,6 +17,9 @@ class _HomeScreenState extends State<HomeScreen> {
     Colors.red.shade500,
     Colors.green.shade700,
     Colors.blue.shade700,
+    Colors.orange.shade500,
+    Colors.purple.shade700,
+    Colors.pink.shade700,
   ];
 
   @override
@@ -86,17 +90,22 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               SizedBox(height: MediaQueryUtils.screenHeight * 0.08),
+
               // Stacked Cards
               Expanded(
-                child: Stack(
-                  children: List.generate(cardColors.length, (index) {
-                    return Positioned(
-                      top: index * MediaQueryUtils.screenHeight * 0.14,
-                      left: 0,
-                      right: 0,
-                      child: _buildGiftCard(cardColors[index]),
-                    );
-                  }),
+                child: Swiper(
+                  itemCount: cardColors.length,
+                  loop: true, // Disable infinite scrolling
+                  scrollDirection: Axis.vertical, // Enables vertical swiping
+                  physics:
+                      const BouncingScrollPhysics(), // Adds smooth bounce effect
+                  layout: SwiperLayout.STACK, // Stacked card layout
+                  itemWidth: MediaQueryUtils.screenWidth * 0.9, // Adjust width
+                  itemHeight:
+                      MediaQueryUtils.screenHeight * 0.3, // Adjust height
+                  itemBuilder: (context, index) {
+                    return _buildGiftCard(cardColors[index]);
+                  },
                 ),
               ),
             ],

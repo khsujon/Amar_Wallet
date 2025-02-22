@@ -42,6 +42,8 @@ dependencies:
   barcode_widget:
   path_provider: 
   permission_handler: 
+  flutter_swiper_view: ^1.1.8
+
 
 
 dev_dependencies:

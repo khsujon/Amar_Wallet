@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
+import 'package:amar_wallet/utils/media_query_utils.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -89,15 +90,18 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
                 ],
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: MediaQueryUtils.screenHeight * 0.02),
+            Image.asset('assets/images/ci_qr-code.png'),
+            SizedBox(height: MediaQueryUtils.screenHeight * 0.01),
             const Text(
               'Scan QR Code',
               style: TextStyle(
+                  fontFamily: 'Sen',
                   fontSize: 28,
                   fontWeight: FontWeight.w400,
                   color: Colors.white),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: MediaQueryUtils.screenHeight * 0.15),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
@@ -107,7 +111,10 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
                 ),
                 SizedBox(width: 8),
                 Text('Mash Potato',
-                    style: TextStyle(fontSize: 16, color: Colors.white)),
+                    style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 16,
+                        color: Colors.white)),
               ],
             ),
             const SizedBox(height: 20),
@@ -123,8 +130,8 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
                     BarcodeWidget(
                       data: barcodeData,
                       barcode: Barcode.code128(),
-                      width: 200,
-                      height: 80,
+                      width: MediaQueryUtils.screenWidth * 0.6,
+                      height: MediaQueryUtils.screenHeight * 0.1,
                       drawText: false,
                       color: Colors.black,
                     ),
