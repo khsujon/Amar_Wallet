@@ -38,7 +38,7 @@ dependencies:
   url_launcher: 
   flutter_otp_text_field:
   provider: 
-
+  sms_autofill: 
 dev_dependencies:
   flutter_test:
     sdk: flutter

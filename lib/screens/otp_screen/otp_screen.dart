@@ -1,14 +1,12 @@
 // lib/screens/otp_screen/otp_screen.dart
-import 'package:amar_wallet/screens/bottom_nav_screen/bottom_nav_screen.dart';
-import 'package:amar_wallet/screens/home_screen/home_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:sms_autofill/sms_autofill.dart'; // Import the sms_autofill package
 import '../../constants/app_colors.dart';
 import '../../constants/app_strings.dart';
 import '../../utils/media_query_utils.dart';
 import '../../widgets/custom_primary_button.dart';
 import '../../widgets/tapable_text.dart';
+import '../../screens/bottom_nav_screen/bottom_nav_screen.dart';
 
 class OTPScreen extends StatefulWidget {
   const OTPScreen({super.key});
@@ -18,6 +16,30 @@ class OTPScreen extends StatefulWidget {
 }
 
 class _OTPScreenState extends State<OTPScreen> {
+  late TextEditingController _otpController;
+  String? _appSignature;
+
+  @override
+  void initState() {
+    super.initState();
+    _otpController = TextEditingController();
+    _listenForAppSignature(); // Get the app signature for SMS autofill
+  }
+
+  // Listen for the app signature (required for SMS autofill)
+  Future<void> _listenForAppSignature() async {
+    String? signature = await SmsAutoFill().getAppSignature;
+    setState(() {
+      _appSignature = signature; // Store the app signature
+    });
+  }
+
+  @override
+  void dispose() {
+    _otpController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,47 +61,42 @@ class _OTPScreenState extends State<OTPScreen> {
                   color: Colors.white,
                 ),
               ),
-
               const Text(
                 "+8801****879",
                 style: TextStyle(
-                  fontFamily: 'Popins',
+                  fontFamily: 'Poppins',
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
                   color: Colors.white,
                 ),
               ),
               const SizedBox(height: 16),
-              // OTP Text Field
-              OtpTextField(
-                numberOfFields: 6,
-                borderColor: Colors.white,
-                focusedBorderColor: Colors.white, // Active box color
-                disabledBorderColor:
-                    Colors.grey.withOpacity(0.5), // Inactive box color
-                textStyle: const TextStyle(
-                  color: Colors.white, // Input text color
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+              // PinFieldAutoFill (Box Shape)
+              PinFieldAutoFill(
+                controller: _otpController,
+                decoration: BoxLooseDecoration(
+                  textStyle: const TextStyle(
+                    color: Colors.white, // Input text color
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  strokeColorBuilder:
+                      FixedColorBuilder(Colors.white), // Border color
+                  strokeWidth: 1,
+                  bgColorBuilder:
+                      FixedColorBuilder(Colors.transparent), // Background color
+                  radius: const Radius.circular(8), // Rounded corners
                 ),
-                fieldWidth: (MediaQueryUtils.screenWidth - 32 - 50) /
-                    6, // Adjust width dynamically
-                borderRadius: BorderRadius.circular(8),
-                showFieldAsBox: true,
-                onCodeChanged: (String code) {
-                  // Handle individual field changes if needed
+                codeLength: 6, // Number of OTP fields
+                onCodeChanged: (code) {
+                  // if (code?.length == 6) {
+                  //   // Automatically submit OTP when 6 digits are entered
+                  //   print('OTP submitted: $code');
+                  //   FocusScope.of(context).unfocus();
+                  // }
                 },
-                onSubmit: (String verificationCode) {
-                  // Show dialog when OTP is submitted
-                  // showDialog(
-                  //   context: context,
-                  //   builder: (context) {
-                  //     return AlertDialog(
-                  //       title: const Text("Verification Code"),
-                  //       content: Text('Code entered is $verificationCode'),
-                  //     );
-                  //   },
-                  // );
+                onCodeSubmitted: (code) {
+                  // Handle OTP submission
                 },
               ),
               SizedBox(height: MediaQueryUtils.screenHeight * 0.07),
@@ -102,11 +119,9 @@ class _OTPScreenState extends State<OTPScreen> {
                 secondPart: '',
                 onTapFirst: () {
                   // Handle Terms and Conditions tap
-                  launchUrl(Uri.parse('https://example.com/terms'));
                 },
                 onTapSecond: () {
                   // Handle Privacy Policy tap
-                  launchUrl(Uri.parse('https://example.com/privacy'));
                 },
               ),
               const SizedBox(height: 16),
