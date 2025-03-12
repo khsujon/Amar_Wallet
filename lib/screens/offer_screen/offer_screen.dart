@@ -67,6 +67,10 @@ class _OfferScreenState extends State<OfferScreen> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                         color: Color.fromRGBO(45, 44, 44, 1),
+                        border: Border.all(
+                          color: Color.fromRGBO(255, 255, 255, 0.2),
+                          width: 1,
+                        ),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -109,22 +113,30 @@ class _OfferScreenState extends State<OfferScreen> {
                           ),
                           const Spacer(),
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Text(
-                                'Use Code:',
-                                style: TextStyle(
-                                  fontFamily: 'Sen',
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.white,
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 8),
+                                decoration: BoxDecoration(
+                                  color: Color.fromRGBO(68, 68, 68, 1),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: const Text(
+                                  'Add Promo',
+                                  style: TextStyle(
+                                    fontFamily: 'Sen',
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
-                              const SizedBox(width: 8),
                               const Text(
-                                'FIRST50',
+                                'Valid till March 31, 2025',
                                 style: TextStyle(
-                                  fontFamily: 'Sen',
-                                  fontSize: 16,
+                                  fontFamily: 'Poppins',
+                                  fontSize: 12,
                                   fontWeight: FontWeight.w400,
                                   color: Colors.white,
                                 ),
