@@ -45,6 +45,7 @@ class CustomTextField extends StatelessWidget {
           Expanded(
             child: TextField(
               controller: controller,
+              keyboardType: TextInputType.phone,
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w400,

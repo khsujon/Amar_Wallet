@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/bottom_nav_provider.dart';
 import '../home_screen/home_screen.dart';
-import '../menu_screen/menu_screen.dart';
+import '../offer_screen/offer_screen.dart';
 import '../settings_screen/settings_screen.dart';
 import '../../widgets/bottom_nav_bar.dart';
 
@@ -20,7 +20,7 @@ class BottomNavScreen extends StatelessWidget {
             case 0:
               return const HomeScreen();
             case 1:
-              return const MenuScreen();
+              return const OfferScreen();
             case 2:
               return const SettingsScreen();
             default:
