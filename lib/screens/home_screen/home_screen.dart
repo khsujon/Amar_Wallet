@@ -34,14 +34,9 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               Row(
                 children: [
-                  const Text(
-                    'Amar Wallet',
-                    style: TextStyle(
-                      fontFamily: 'Sen',
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.primaryTextColor,
-                    ),
+                  Image.asset(
+                    "assets/images/zep.png",
+                    height: 40,
                   ),
                   const Spacer(),
                   Container(
