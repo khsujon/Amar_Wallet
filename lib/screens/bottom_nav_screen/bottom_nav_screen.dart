@@ -1,4 +1,4 @@
-// lib/screens/bottom_nav_screen/bottom_nav_screen.dart
+import 'package:amar_wallet/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/bottom_nav_provider.dart';
@@ -15,12 +15,11 @@ class BottomNavScreen extends StatelessWidget {
     return Scaffold(
       body: Consumer<BottomNavProvider>(
         builder: (context, bottomNavProvider, child) {
-          // Switch between screens based on the selected index
           switch (bottomNavProvider.currentIndex) {
             case 0:
-              return const HomeScreen();
-            case 1:
               return const OfferScreen();
+            case 1:
+              return const HomeScreen();
             case 2:
               return const SettingsScreen();
             default:
@@ -28,8 +27,16 @@ class BottomNavScreen extends StatelessWidget {
           }
         },
       ),
-      bottomNavigationBar:
-          const BottomNavBar(), // Add the bottom navigation bar
+      bottomNavigationBar: Container(
+        decoration: const BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.primaryColor,
+            ),
+          ],
+        ),
+        child: const BottomNavBar(),
+      ),
     );
   }
 }
